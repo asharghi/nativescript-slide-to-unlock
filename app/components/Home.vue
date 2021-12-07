@@ -1,41 +1,57 @@
 <template>
-    <Page>
-        <ActionBar>
-            <Label text="Home"/>
-        </ActionBar>
-
-        <GridLayout>
-            <Label class="info">
-                <FormattedString>
-                    <Span class="fas" text.decode="&#xf135; "/>
-                    <Span :text="message"/>
-                </FormattedString>
-            </Label>
-        </GridLayout>
-    </Page>
+  <Page>
+    <ActionBar>
+      <Label :text="'Slide to unlocked: ' + slidePercentDisplay" />
+    </ActionBar>
+    <StackLayout margin="20">
+      <UnlockSlider
+        ref="unlockSlider"
+        :buttonSize="70"
+        buttonText="→"
+        infoText="Slide to unlock"
+        @change="sliderChange"
+      />
+      <Button
+        @tap="reset"
+        v-if="slidePercent === 1"
+        width="100%"
+        margin="20 0 0 0"
+        borderWidth="1"
+        borderColor="black"
+        borderRadius="70"
+        height="70"
+        fontSize="20"
+        fontWeight="bold"
+        textAlignment="center"
+        text="Unlocked, tap to lock"
+      />
+    </StackLayout>
+  </Page>
 </template>
 
 <script>
-  export default {
-    computed: {
-      message() {
-        return "Blank {N}-Vue app";
-      }
-    }
-  };
+import UnlockSlider from "@/components/UnlockSlider.vue";
+export default {
+  components: {
+    UnlockSlider,
+  },
+  methods: {
+    sliderChange(percent) {
+      this.slidePercent = percent;
+    },
+    reset() {
+      this.$refs.unlockSlider.reset();
+    },
+  },
+  computed: {
+    slidePercentDisplay() {
+      return Math.round(this.slidePercent * 100).toFixed(0) + "%";
+    },
+  },
+  data() {
+    return {
+      slidePercent: 0,
+    };
+  },
+};
 </script>
-
-<style scoped lang="scss">
-    @import '@nativescript/theme/scss/variables/blue';
-
-    // Custom styles
-    .fas {
-        @include colorize($color: accent);
-    }
-
-    .info {
-        font-size: 20;
-        horizontal-align: center;
-        vertical-align: center;
-    }
-</style>
