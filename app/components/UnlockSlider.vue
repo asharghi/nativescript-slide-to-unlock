@@ -32,7 +32,7 @@
       :backgroundColor="buttonBackgroundColor"
       margin="0"
       padding="0"
-      fontSize="20"
+      :fontSize="buttonTextSize"
       :text="buttonText"
       horizontalAlignment="left"
     />
