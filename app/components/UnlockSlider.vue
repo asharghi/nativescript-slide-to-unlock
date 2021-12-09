@@ -1,11 +1,11 @@
 <template>
   <GridLayout
-    background="#febd11"
+    :background="containerBackgroundColor"
     width="100%"
     margin="0"
     padding="2"
-    :borderRadius="buttonSize"
-    :height="buttonSize"
+    :borderRadius="radius"
+    :height="buttonHeight"
   >
     <Label
       ref="infoText"
@@ -13,18 +13,23 @@
       textAlignment="center"
       margin="0"
       padding="0"
-      fontSize="16"
+      :color="infoTextColor"
+      :fontSize="infoTextSize"
       :text="infoText"
       verticalAlignment="center"
       :opacity="1 - slidePercent * 1.5"
     />
     <Button
       ref="slideButton"
+      class="slideButton"
       @pan="slide"
       z-index="0"
-      :borderRadius="buttonSize"
-      :width="buttonSize"
-      :height="buttonSize"
+      :borderRadius="radius"
+      :width="buttonHeight"
+      :height="buttonHeight"
+      :color="buttonTextColor"
+      :fontWeight="buttonTextFontWeight"
+      :backgroundColor="buttonBackgroundColor"
       margin="0"
       padding="0"
       fontSize="20"
@@ -65,17 +70,17 @@ export default {
           buttonView.translateX = 0;
           this.prevDeltaX = 0;
         } else {
-          const buttonPosition = this.buttonSize + buttonView.translateX;
+          const buttonPosition = this.buttonHeight + buttonView.translateX;
           if (buttonPosition > gridViewWidth) {
-            buttonView.translateX = gridViewWidth - this.buttonSize;
+            buttonView.translateX = gridViewWidth - this.buttonHeight;
             this.prevDeltaX = 0;
           }
         }
         this.slidePercent =
-          (this.buttonSize + buttonView.translateX) / gridViewWidth;
+          (this.buttonHeight + buttonView.translateX) / gridViewWidth;
       } else if (args.state === 3) {
         // Done paning
-        if (gridViewWidth !== this.buttonSize + buttonView.translateX) {
+        if (gridViewWidth !== this.buttonHeight + buttonView.translateX) {
           this.reset();
         }
       }
@@ -92,18 +97,55 @@ export default {
       this.$emit("change", this.slidePercent);
     },
   },
+  computed: {
+    buttonHeight() {
+      return this.height - 2;
+    },
+  },
   props: {
-    buttonSize: {
+    height: {
       type: Number,
       default: 70,
+    },
+    radius: {
+      type: Number,
+      default: 70,
+    },
+    containerBackgroundColor: {
+      type: String,
+      default: "lightgray",
     },
     buttonText: {
       type: String,
       default: "→",
     },
+    buttonTextSize: {
+      type: Number,
+      default: 20,
+    },
+    buttonTextColor: {
+      type: String,
+      default: "black",
+    },
+    buttonTextFontWeight: {
+      type: String,
+      default: "normal",
+    },
+    buttonBackgroundColor: {
+      type: String,
+      default: "white",
+    },
     infoText: {
       type: String,
       default: "Slide to unlock",
+    },
+    infoTextSize: {
+      type: Number,
+      default: 16,
+    },
+    infoTextColor: {
+      type: String,
+      default: "black",
     },
   },
 };

@@ -4,13 +4,7 @@
       <Label :text="'Slide to unlocked: ' + slidePercentDisplay" />
     </ActionBar>
     <StackLayout margin="20">
-      <UnlockSlider
-        ref="unlockSlider"
-        :buttonSize="70"
-        buttonText="→"
-        infoText="Slide to unlock"
-        @change="sliderChange"
-      />
+      <UnlockSlider ref="unlockSlider" @change="sliderChange" />
       <Button
         @tap="reset"
         v-if="slidePercent === 1"
@@ -24,6 +18,20 @@
         fontWeight="bold"
         textAlignment="center"
         text="Unlocked, tap to lock"
+      />
+      <UnlockSlider
+        marginTop="20"
+        height="50"
+        radius="5"
+        infoText="Customizable"
+        infoTextSize="30"
+        infoTextColor="yellow"
+        containerBackgroundColor="blue"
+        buttonText="➤"
+        buttonTextSize="5"
+        buttonTextColor="red"
+        buttonTextFontWeight="bold"
+        buttonBackgroundColor="green"
       />
     </StackLayout>
   </Page>
@@ -55,3 +63,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.slideButton {
+  font-size: 5;
+}
+</style>
