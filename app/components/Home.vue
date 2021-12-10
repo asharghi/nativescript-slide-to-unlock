@@ -74,11 +74,7 @@
 </template>
 
 <script>
-import UnlockSlider from "@/components/UnlockSlider.vue";
 export default {
-  components: {
-    UnlockSlider,
-  },
   methods: {
     sliderChange(percent) {
       this.slidePercent = percent;
